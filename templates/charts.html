@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>统计图表</title>
+    <style>
+        #main {
+            width: 600px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main"></div>
+    <script src="https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        var myChart = echarts.init($('#main')[0]);
+        $.ajax({
+            'url': 'charts_data',
+            'type': 'get',
+            'data': {},
+            'dataType': 'json',
+            'success': function(json) {
+                var option = {
+                    title: {
+                        text: '员工分布统计图'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data:['人数']
+                    },
+                    xAxis: {
+                        data: json.names
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '人数',
+                        type: 'bar',
+                        data: json.totals
+                    }]
+                };
+                myChart.setOption(option);
+            },
+            'error': function() {}
+        });
+    </script>
+</body>
+</html>
